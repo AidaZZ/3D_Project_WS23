@@ -1,21 +1,20 @@
 #include "playground.h"
 //#include <ft2build.h>
-// Include standard headers
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <iostream>
 
-// Include GLFW
+
 #include <glfw3.h>
 GLFWwindow* window;
 
-// Include GLM
 #include <glm/gtc/matrix_transform.hpp>
 using namespace glm;
 
 #include <common/shader.hpp>
 
-// ADDED: we have 2 cubes
+// my dice m
 pgObject cubes[2];
 
 int main(void)
@@ -37,15 +36,9 @@ int main(void)
 	MatrixMVID = glGetUniformLocation(programID, "MV");
 	MatrixMVPID = glGetUniformLocation(programID, "MVP");
 
-	/*
-		curr_x = 0;
-		curr_y = 0;
-		curr_angleY = 0;
-		curr_angleZ = 0;
-		curr_dir = glm::vec3(0.0f, 1.0f, 0.0f);
-	*/
 
-	// ADDED: initialize our cubes
+
+	// initialize our cubes m
 	cubes[0].position = glm::vec3(2.0f, 0.0f, 0.0f);
 	cubes[0].rotation = glm::vec3(0.0f, 0.0f, 0.0f);
 	cubes[0].scale = glm::vec3(1.f, 1.f, 1.f);
@@ -70,15 +63,15 @@ int main(void)
 }
 
 void updateAnimationLoop() {
-	// ADDED: Variable to control rotation
+	// variable to control rotation m
 	static bool isRotating = true;
-	const float rotationSpeedAuto = 0.001f;
+	const float rotationSpeedAuto = 0.0005f;
 	const float rotationSpeedManual = 0.01f;
 
 	// Clear the screen
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	// Use our shader
+	// Use the shader
 	glUseProgram(programID);
 
 	// Toggle rotation on space bar press
@@ -94,7 +87,7 @@ void updateAnimationLoop() {
 		spaceKeyPressed = false;
 	}
 
-	// ADDED: The angle to add to the current rotation of the objects
+	// The angle to add to the current rotation of the objects m
 	glm::vec3 rotation(0.0f, 0.0f, 0.0f);
 
 	if (isRotating) {
@@ -117,12 +110,11 @@ void updateAnimationLoop() {
 	else if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
 		rotation[2] += rotationSpeedManual;
 	}
-	//	else if (glfwGetKey(window, GLFW_KEY_R) == GLFW_PRESS) {
-	//		curr_angle += rotationManual;
-	//		curr_dir = glm::vec3(0.0f, 1.0f, 1.0f);
-	//	}
 
-		// ADDED: Rotate & draw our objects
+
+
+
+		// Rotate & draw our objects m
 	for (int i = 0; i < 2; i++)
 	{
 		if (i == 0)
@@ -159,11 +151,11 @@ bool initializeWindow()
 	glfwWindowHint(GLFW_SAMPLES, 4);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE); // To make MacOS happy; should not be needed
+	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE); 
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 	// Open a window and create its OpenGL context
-	window = glfwCreateWindow(1024, 768, "Rubik's Cube", NULL, NULL);
+	window = glfwCreateWindow(1024, 768, "Dice", NULL, NULL);
 	if (window == NULL) {
 		fprintf(stderr, "Failed to open GLFW window. If you have an Intel GPU, they are not 3.3 compatible. Try the 2.1 version of the tutorials.\n");
 		getchar();
@@ -185,7 +177,7 @@ bool initializeWindow()
 	glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE);
 
 	// background
-	glClearColor(0.5f, 0.5f, 0.7f, 0.0f);
+	glClearColor(0.8f, 1.0f, 0.8f, 0.0f);
 	return true;
 }
 
@@ -210,10 +202,10 @@ bool initializeMVPTransformation(const glm::vec3& position, const glm::vec3& rot
 	// Model matrix: an identity matrix (model will be at the origin)
 	glm::mat4 Model = glm::mat4(1.0f);
 
-	// ADDED: Additional translation of the model
+	//Additional translation of the model m
 	Model = glm::translate(Model, position);
 
-	// ADDED: Additional rotation of the model
+	//Additional rotation of the model m
 	Model = glm::rotate(Model, rotation[0], glm::vec3(1.0f, 0.0f, 0.0f));
 	Model = glm::rotate(Model, rotation[1], glm::vec3(0.0f, 1.0f, 0.0f));
 	Model = glm::rotate(Model, rotation[2], glm::vec3(0.0f, 0.0f, 1.0f));
@@ -397,7 +389,7 @@ bool initializeVertexbuffer()
 		};
 	};
 
-	// ADDED: moved pointer initialization here, to it's proper place
+	//moved pointer initialization here, to it's proper place m
 	glGenBuffers(1, &vertexbuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(cube0), &cube0[0][0], GL_STATIC_DRAW);

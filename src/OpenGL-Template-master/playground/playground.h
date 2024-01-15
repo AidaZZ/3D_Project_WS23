@@ -24,17 +24,7 @@ glm::mat4 MatrixMVP;
 GLuint MatrixMVID;
 glm::mat4 MatrixMV;
 
-/*
-float curr_x;
-float curr_y;
-float curr_angle;
-float curr_angleY;
-float curr_angleZ;
-//float rX;
-//float rY;
-//float rZ;
-glm::vec3 curr_dir;
-*/
+
 
 // ADDED: simple object
 struct pgObject
